@@ -26,9 +26,8 @@ class DataIngestion:
             student_data = read_csv_data(self)
             print(student_data.head(5))
             train_set, test_set = train_test_split(student_data,test_size=0.2,random_state=41)
-            dataFrame = pd.DataFrame()
-            dataFrame.to_csv(self.ingestion_config.test_data_path,index=False, header=True)
-            dataFrame.to_csv(self.ingestion_config.train_data_path,index=False, header=True)
+            train_set.to_csv(self.ingestion_config.test_data_path,index=False, header=True)
+            test_set.to_csv(self.ingestion_config.train_data_path,index=False, header=True)
 
             logging.info("Data ingestion completed")
 
