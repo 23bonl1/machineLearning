@@ -1,21 +1,29 @@
 from machineLearning.logger import logging
 from machineLearning.exception import CustomException
 from machineLearning.components.data_ingestion import DataIngestion
-from machineLearning.components.data_transformation import DataTransformation, DataTransformationConfig
+from machineLearning.components.data_ingestion import DataIngestionConfig
+from machineLearning.components.data_transformation import DataTransformationConfig,DataTransformation
+from machineLearning.components.model_trainer import ModelTrainerConfig,ModelTrainer
+
 import sys
 
-if __name__== "__main__":
-    logging.info("execution started")
 
-    try :
-        #data_ingestion = DataIngestion()
-        #data_ingestion.initiate_data_ingestion()
-        #data_ingestion.initiate_data_ingestion()
-        #data_transformation_config = DataTransformationConfig()
-        data_transformation = DataTransformation()
-        data_transformation.initiate_data_transormation("artifacts/train_data.csv","artifacts/test_data.csv" )
+if __name__=="__main__":
+    logging.info("The execution has started")
 
+    try:
+        #data_ingestion_config=DataIngestionConfig()
+        data_ingestion=DataIngestion()
+        train_data_path,test_data_path=data_ingestion.initiate_data_ingestion()
+
+        #data_transformation_config=DataTransformationConfig()
+        data_transformation=DataTransformation()
+        train_arr,test_arr,_=data_transformation.initiate_data_transormation(train_data_path,test_data_path)
+
+        ## Model Training
+        model_trainer=ModelTrainer()
+        print(model_trainer.initiate_model_trainer(train_arr,test_arr))
+        
     except Exception as e:
-        logging.info("Custom ecxeption")
+        logging.info("Custom Exception")
         raise CustomException(e,sys)
-
